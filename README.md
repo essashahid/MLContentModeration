@@ -135,6 +135,39 @@ Notes
 
 For detailed plots, confusion matrices, and extended commentary, see the notebooks and `G38_Report.pdf`.
 
+## Executive Summary (from Report)
+
+- Objective: Build a robust multi‑label toxic comment classifier covering six categories on Wikipedia talk page data.
+- Approach: Baselines with TF‑IDF + linear models → neural baseline → fine‑tuned BERT with `BCEWithLogitsLoss`.
+- Key finding: Fine‑tuned BERT achieves the strongest overall performance; rare classes remain challenging due to label sparsity.
+- Practical implication: Classical models remain competitive for low‑latency scenarios; BERT is preferred where accuracy is paramount.
+
+## Report Cross‑Reference
+
+The full report (`G38_Report.pdf`) provides:
+- Experimental setup: dataset curation, preprocessing pipeline, splits, and hyperparameters
+- Figures: label distribution, sequence length analysis (supports 200‑token max length), confusion matrices
+- Detailed evaluation: class‑wise precision/recall/F1, macro/micro averages, and error analysis
+- Discussion: impact of imbalance, thresholding effects, failure modes, and suggested mitigations
+
+Suggested reading path in the report:
+1) Problem and dataset overview → 2) Methods (baselines → BERT) → 3) Experiments/Results → 4) Error analysis → 5) Future work
+
+## Selected Detailed Results
+
+Below are representative per‑class metrics surfaced during BERT evaluation in `G38_NB3.ipynb` (test split); see the report for full tables across all classes and splits.
+
+| Class | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| Toxic | 0.40 | 0.96 | 0.56 | 6090 |
+| Severe toxic | 0.29 | 0.41 | 0.34 | 367 |
+| Obscene | 0.52 | 0.83 | 0.63 | 3691 |
+| Threat | 0.50 | 0.58 | 0.54 | 211 |
+
+Notes
+- Rare classes (e.g., severe toxic, threat) show lower F1 due to label sparsity; improved sampling/weighting and threshold tuning can help.
+- See the report for metrics on `insult` and `identity_hate`, macro/micro averages, and validation‑set results.
+
 ## How to Reproduce
 
 1) Download dataset and place CSVs as described above.
